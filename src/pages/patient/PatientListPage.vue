@@ -87,7 +87,7 @@ const deleteListItem = async (item: IPatient) => {
 
 <template>
   <default-template>
-    <template #title> Lista de patient </template>
+    <template #title> Lista de Pacientes </template>
 
     <template #action>
       <v-btn color="primary" :prepend-icon="mdiPlusCircle" :to="{ name: 'patient-insert' }">

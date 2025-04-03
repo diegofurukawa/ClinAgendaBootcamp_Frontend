@@ -84,7 +84,7 @@ const deleteListItem = async (item: ISpecialty) => {
 
 <template>
   <default-template>
-    <template #title> Lista de specialty </template>
+    <template #title> Lista de Especialidades </template>
 
     <template #action>
       <v-btn color="primary" :prepend-icon="mdiPlusCircle" :to="{ name: 'specialty-insert' }">

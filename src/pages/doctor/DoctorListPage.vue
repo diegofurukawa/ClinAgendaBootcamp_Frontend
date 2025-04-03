@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { DefaultTemplate } from '@/template'
 import { mdiPlusCircle, mdiTrashCan } from '@mdi/js'
-import type { IStatus, GetStatusListRequest, GetStatusListResponse } from '@/interfaces/status'
+import type { IDoctor, GetDoctorListRequest, GetDoctorListResponse } from '@/interfaces/doctor'
 import request from '@/engine/httpClient'
 import { useToastStore } from '@/stores'
 
@@ -12,7 +12,7 @@ const isLoadingList = ref<boolean>(false)
 const itemsPerPage = ref<number>(10)
 const total = ref<number>(0)
 const page = ref<number>(1)
-const items = ref<IStatus[]>([])
+const items = ref<IDoctor[]>([])
 
 const headers = [
   {
@@ -23,6 +23,10 @@ const headers = [
     cellProps: { class: 'text-no-wrap' }
   },
   { title: 'Nome', key: 'name', sortable: false },
+  { title: 'Duração', key: 'phoneNumber', sortable: false },
+  { title: 'Documento', key: 'documentNumber', sortable: false },
+  { title: 'Status', key: 'statusId', sortable: false },
+  { title: 'Nascimento', key: 'birthDate', sortable: false },
   {
     title: 'Ações',
     key: 'actions',
@@ -40,9 +44,9 @@ const handleDataTableUpdate = async ({ page: tablePage, itemsPerPage: tableItems
 
 const loadDataTable = async () => {
   isLoadingList.value = true
-  const { isError, data } = await request<GetStatusListRequest, GetStatusListResponse>({
+  const { isError, data } = await request<GetDoctorListRequest, GetDoctorListResponse>({
     method: 'GET',
-    endpoint: 'status/list',
+    endpoint: 'doctor/list',
     body: {
       itemsPerPage: itemsPerPage.value,
       page: page.value
@@ -56,7 +60,7 @@ const loadDataTable = async () => {
   isLoadingList.value = false
 }
 
-const deleteListItem = async (item: IStatus) => {
+const deleteListItem = async (item: IDoctor) => {
   const shouldDelete = confirm(`Deseja mesmo deletar ${item.name}?`)
 
   if (!shouldDelete) return
@@ -64,14 +68,14 @@ const deleteListItem = async (item: IStatus) => {
   try {
     const response = await request<null, null>({
       method: 'DELETE',
-      endpoint: `status/delete/${item.id}`
+      endpoint: `doctor/delete/${item.id}`
     })
 
     if (response.isError) return
 
     toastStore.setToast({
       type: 'success',
-      text: 'Status deletada com sucesso!'
+      text: 'doctor deletada com sucesso!'
     })
 
     loadDataTable()
@@ -83,11 +87,11 @@ const deleteListItem = async (item: IStatus) => {
 
 <template>
   <default-template>
-    <template #title> Lista de Status </template>
+    <template #title> Lista de Médicos </template>
 
     <template #action>
-      <v-btn color="primary" :prepend-icon="mdiPlusCircle" :to="{ name: 'status-insert' }">
-        Adicionar Status
+      <v-btn color="primary" :prepend-icon="mdiPlusCircle" :to="{ name: 'doctor-insert' }">
+        Adicionar doctor
       </v-btn>
     </template>
 
@@ -102,7 +106,7 @@ const deleteListItem = async (item: IStatus) => {
         @update:options="handleDataTableUpdate"
       >
         <template #[`item.actions`]="{ item }">
-          <v-tooltip text="Deletar status" location="left">
+          <v-tooltip text="Deletar doctor" location="left">
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"
