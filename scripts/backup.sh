@@ -23,6 +23,9 @@ mkdir -p "$BACKUP_DIR"
 
 # Lista de arquivos e diretórios para ignorar
 EXCLUDE=(
+    "public"
+    "vite.config.mts"
+    ".mts"
     "bin"
     "obj"
     "Properties"
