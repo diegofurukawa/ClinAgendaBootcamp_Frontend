@@ -126,7 +126,7 @@ const deleteListItem = async (item: IDoctor) => {
         <template #[`item.statusName`]="{ item }"> {{ item.status.name }} </template>
 
         <template #[`item.actions`]="{ item }">
-          <v-tooltip text="Deletar especialidade" location="left">
+          <v-tooltip text="Deletar Médico" location="left">
             <template #activator="{ props }">
               <v-btn
                 v-bind="props"

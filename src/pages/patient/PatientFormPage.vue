@@ -22,7 +22,7 @@ const form = ref<PatientForm>({
   ,phoneNumber: ''
   ,documentNumber: ''
   ,birthDate: ''
-  ,statusId: ''
+  ,statusId: 0
 })
 
 const pageTitle = computed(() => {

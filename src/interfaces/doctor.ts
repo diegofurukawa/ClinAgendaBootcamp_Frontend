@@ -1,5 +1,5 @@
-import type { IStatus } '@/interfaces/status'
-import type { ISpecialty } '@/interfaces/specialty'
+import type { IStatus } from '@/interfaces/status'
+import type { ISpecialty } from '@/interfaces/specialty'
 
 
 export interface IDoctor {

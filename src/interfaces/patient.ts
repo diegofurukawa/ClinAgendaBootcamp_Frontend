@@ -1,12 +1,12 @@
-import type { IStatus } '@/interfaces/status'
+import type { IStatus } from '@/interfaces/status'
 
 export interface IPatient {
     id: number
     name: string
     phoneNumber: string
-    documentNumber: string
-    statusId: IStatus
+    documentNumber: string    
     birthDate: string
+    status: IStatus
   }
   
   export type GetPatientListRequest = {
@@ -26,6 +26,6 @@ export interface IPatient {
     phoneNumber: IPatient['phoneNumber']
     documentNumber: IPatient['documentNumber']
     birthDate: IPatient['birthDate']
-    statusId: IPatient['statusId']
+    statusId: IStatus['id']
   }
   
