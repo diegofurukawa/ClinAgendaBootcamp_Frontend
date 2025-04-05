@@ -7,8 +7,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CDatePicker: typeof import('./src/components/CDatePicker.vue')['default']
     ClinDatePicker: typeof import('./src/components/ClinDatePicker.vue')['default']
     ClinicToast: typeof import('./src/components/ClinicToast.vue')['default']
+    ClnDatePicker: typeof import('./src/components/ClnDatePicker.vue')['default']
+    CnDatePicker: typeof import('./src/components/CnDatePicker.vue')['default']
     FToast: typeof import('./src/components/FToast.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -81,11 +81,11 @@ onMounted(() => {
 
     <v-form :disabled="isLoadingForm" @submit.prevent="submitForm">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="8">
           <v-text-field v-model.trim="form.name" label="Nome" hide-details />
         </v-col>
 
-        <v-col cols="6">
+        <v-col cols="2">
           <v-text-field v-model.trim="form.scheduleDuration" label="Duração" hide-details />
         </v-col>
       </v-row>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { DefaultTemplate } from '@/template'
-import { mdiPlusCircle, mdiTrashCan } from '@mdi/js'
+import { mdiPlusCircle, mdiTrashCan, mdiPencilOutline } from '@mdi/js'
 import type {
   ISpecialty,
   GetSpecialtyListRequest,
@@ -118,6 +118,21 @@ const deleteListItem = async (item: ISpecialty) => {
       >
         <template #[`item.scheduleDuration`]="{ item }"> {{ item.scheduleDuration }} min </template>
         <template #[`item.actions`]="{ item }">
+
+          <v-tooltip text="Editar Paciente" location="left">
+            <template #activator="{ props }">
+              <!-- Edit Button -->
+              <v-btn
+                v-bind="props"
+                :icon="mdiPencilOutline"
+                size="small"
+                color="yellow"
+                class="mr-2"
+                :to="{ name: 'specialty-insert' }"
+              />
+            </template>
+          </v-tooltip>
+
           <v-tooltip text="Deletar especialidade" location="left">
             <template #activator="{ props }">
               <v-btn

@@ -13,6 +13,8 @@ export interface IPatient {
     itemsPerPage: number
     page: number
     name: IPatient['name']
+    documentNumber: IPatient['documentNumber']
+    statusId: IStatus['id'] | null
   }
   
   export type GetPatientListResponse = {
@@ -26,6 +28,6 @@ export interface IPatient {
     phoneNumber: IPatient['phoneNumber']
     documentNumber: IPatient['documentNumber']
     birthDate: IPatient['birthDate']
-    statusId: IStatus['id']
+    statusId: IStatus['id'] | null
   }
   

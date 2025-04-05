@@ -5,6 +5,7 @@ import { mdiPlusCircle, mdiTrashCan } from '@mdi/js'
 import type { IStatus, GetStatusListRequest, GetStatusListResponse } from '@/interfaces/status'
 import request from '@/engine/httpClient'
 import { useToastStore } from '@/stores'
+import router from '@/router'
 
 const toastStore = useToastStore()
 
@@ -73,6 +74,8 @@ const deleteListItem = async (item: IStatus) => {
       type: 'success',
       text: 'Status deletada com sucesso!'
     })
+
+    router.push({ name: 'status-list' })
 
     loadDataTable()
   } catch (e) {

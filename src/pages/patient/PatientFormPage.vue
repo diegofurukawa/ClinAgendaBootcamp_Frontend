@@ -8,6 +8,21 @@ import { useRoute } from 'vue-router'
 import { PageMode } from '@/enum'
 import { useToastStore } from '@/stores'
 import router from '@/router'
+import { vMaska } from 'maska/vue'
+import type { IStatus, GetStatusListResponse } from '@/interfaces/status'
+import {
+//   clearMask,
+//   dateFormat,
+//   DateFormatEnum,
+    dateMask,
+    documentNumberMask,
+    phoneNumberMask
+} from '@/utils'
+
+
+const filterStatusId = ref<IStatus['id'] | null>(null)
+const isLoadingFilter = ref<boolean>(false)
+const statusItems = ref<IStatus[]>([])
 
 const toastStore = useToastStore()
 const route = useRoute()
@@ -17,12 +32,36 @@ const isLoadingForm = ref<boolean>(false)
 const id = route.params.id
 const pageMode = id ? PageMode.PAGE_UPDATE : PageMode.PAGE_INSERT
 
+
+const loadFilters = async () => {
+  isLoadingFilter.value = true
+
+  try {
+    const statusResponse = await request<undefined, GetStatusListResponse>({
+      method: 'GET',
+      endpoint: 'status/list'
+    })
+
+    if (statusResponse.isError) return
+
+    statusItems.value = statusResponse.data.items
+  } catch (e) {
+    console.error('Erro ao buscar items do filtro', e)
+  }
+
+  isLoadingFilter.value = false
+}
+
+onMounted(() => {
+  loadFilters()
+})
+
 const form = ref<PatientForm>({
   name: ''
   ,phoneNumber: ''
   ,documentNumber: ''
   ,birthDate: ''
-  ,statusId: 0
+  ,statusId: 13
 })
 
 const pageTitle = computed(() => {
@@ -41,7 +80,7 @@ const submitForm = async () => {
 
   toastStore.setToast({
     type: 'success',
-    text: `Paciente ${pageMode == PageMode.PAGE_INSERT ? 'criada' : 'alterada'} com sucesso!`
+    text: `Especialidade ${pageMode == PageMode.PAGE_INSERT ? 'criada' : 'alterada'} com sucesso!`
   })
 
   router.push({ name: 'patient-list' })
@@ -84,27 +123,51 @@ onMounted(() => {
 
     <v-form :disabled="isLoadingForm" @submit.prevent="submitForm">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12">
           <v-text-field v-model.trim="form.name" label="Nome" hide-details />
         </v-col>
+    </v-row>
 
-        <v-col cols="6">
-          <v-text-field v-model.trim="form.phoneNumber" label="Telefone" hide-details />
+
+    <v-row>
+        <v-col cols="4">
+          <v-text-field 
+          v-model.trim="form.phoneNumber"
+          v-maska="phoneNumberMask"
+          label="Telefone" 
+          hide-details />
         </v-col>
 
-        <v-col cols="6">
-          <v-text-field v-model.trim="form.documentNumber" label="Documento" hide-details />
+        <v-col cols="4">
+          <v-text-field 
+            v-model.trim="form.documentNumber"
+            v-maska="documentNumberMask"
+            label="Documento" 
+            hide-details />
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col cols="4">
+          <v-text-field 
+            v-model.trim="form.birthDate" 
+            v-mask.trim="dateMask"
+            label="Nascimento" 
+            hide-details />
         </v-col>
 
-        <v-col cols="6">
-          <v-text-field v-model.trim="form.birthDate" label="Nascimento" hide-details />
+        <v-col cols="4">
+            <v-select
+                v-model="filterStatusId"
+                label="Status"
+                :loading="isLoadingFilter"
+                :items="statusItems"
+                item-value="id"
+                item-title="name"
+                clearable
+                hide-details
+              />
         </v-col>
-
-        <v-col cols="6">
-          <v-text-field v-model.trim="form.statusId" label="Status" hide-details />
-        </v-col>
-
-      </v-row>
+    </v-row>
     </v-form>
   </default-template>
 </template>
