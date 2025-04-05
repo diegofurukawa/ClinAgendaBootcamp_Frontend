@@ -150,7 +150,7 @@ onMounted(() => {
         <v-col cols="4">
           <v-text-field 
             v-model.trim="form.birthDate" 
-            v-mask.trim="dateMask"
+            v-maska="dateMask"
             label="Nascimento" 
             hide-details />
         </v-col>
