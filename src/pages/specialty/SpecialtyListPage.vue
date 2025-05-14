@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { DefaultTemplate } from '@/template'
-import { mdiPlusCircle, mdiTrashCan, mdiPencilOutline } from '@mdi/js'
+import { mdiPlusCircle, mdiTrashCan, mdiSquareEditOutline } from '@mdi/js'
 import type {
   ISpecialty,
   GetSpecialtyListRequest,
@@ -117,34 +117,38 @@ const deleteListItem = async (item: ISpecialty) => {
         @update:options="handleDataTableUpdate"
       >
         <template #[`item.scheduleDuration`]="{ item }"> {{ item.scheduleDuration }} min </template>
+        
         <template #[`item.actions`]="{ item }">
+        
+          <!-- Edite Button -->
+        <v-tooltip text="Editar Especialidade" location="left">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              :icon="mdiSquareEditOutline"
+              size="small"
+              color="primary"
+              :to="{ name: 'patient-update', params: { id: item.id } }"
+            />
 
-          <v-tooltip text="Editar Paciente" location="left">
-            <template #activator="{ props }">
-              <!-- Edit Button -->
-              <v-btn
-                v-bind="props"
-                :icon="mdiPencilOutline"
-                size="small"
-                color="yellow"
-                class="mr-2"
-                :to="{ name: 'specialty-insert' }"
-              />
-            </template>
-          </v-tooltip>
+          </template>
+        </v-tooltip>
+        
+        <!-- Delete Button -->
+        <v-tooltip text="Deletar Especialidade" location="left">
+          <template #activator="{ props }">
+            <v-btn
+              v-bind="props"
+              :icon="mdiTrashCan"
+              size="small"
+              color="error"
+              class="mr-2"
+              @click="deleteListItem(item)"
+            />
+          </template>
+        </v-tooltip>
 
-          <v-tooltip text="Deletar especialidade" location="left">
-            <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
-                :icon="mdiTrashCan"
-                size="small"
-                color="error"
-                class="mr-2"
-                @click="deleteListItem(item)"
-              />
-            </template>
-          </v-tooltip>
+
         </template>
       </v-data-table-server>
     </template>

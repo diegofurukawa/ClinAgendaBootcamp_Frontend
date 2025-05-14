@@ -23,6 +23,7 @@ const isLoadingFilter = ref<boolean>(false)
 
 const filterName = ref<GetPatientListRequest['name']>('')
 const filterDocumentNumber = ref<GetPatientListRequest['documentNumber']>('')
+  //documentNumber: clearMask(filterDocumentNumber.value),
 const filterStatusId = ref<IStatus['id'] | null>(null)
 
 const itemsPerPage = ref<number>(10)
@@ -199,6 +200,22 @@ onMounted(() => {
           <div>{{ dateFormat(item.birthDate, DateFormatEnum.FullDate.value) }}</div>
         </template>
         <template #[`item.actions`]="{ item }">
+
+          <v-tooltip text="Editar paciente" location="left">
+            <template #activator="{ props }">
+              <v-btn
+                v-bind="props"
+                :icon="mdiSquareEditOutline"
+                size="small"
+                color="primary"
+                :to="{ name: 'patient-update', params: { id: item.id } }"
+              />
+
+            </template>
+          </v-tooltip>
+
+
+
           <v-tooltip text="Deletar paciente" location="left">
             <template #activator="{ props }">
               <v-btn
@@ -211,17 +228,8 @@ onMounted(() => {
               />
             </template>
           </v-tooltip>
-          <v-tooltip text="Editar paciente" location="left">
-            <template #activator="{ props }">
-              <v-btn
-                v-bind="props"
-                :icon="mdiSquareEditOutline"
-                size="small"
-                color="primary"
-                :to="{ name: 'patient-update', params: { id: item.id } }"
-              />
-            </template>
-          </v-tooltip>
+
+
         </template>
       </v-data-table-server>
     </template>
